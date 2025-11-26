@@ -38,7 +38,7 @@ export default function ProductCard({ product }) {
 
       <Link
         href={`/items/${product._id}`}
-        className="mt-4 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-xl text-sm font-medium transition-all"
+        className="mt-4 flex items-center justify-center gap-2 border border-indigo-500 hover:bg-white bg-indigo-600 hover:text-indigo-500 text-white py-2 rounded-xl text-sm font-medium transition-all"
       >
         <FiEye className="text-lg" /> View Details
       </Link>

@@ -11,7 +11,22 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "i.ibb.co",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "app-area.riointernational.com.bd",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "img.icons8.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "m.media-amazon.com",
         pathname: "/**",
       },
     ],

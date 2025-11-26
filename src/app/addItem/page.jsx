@@ -53,16 +53,36 @@ export default function AddItem() {
   if (!user) return null;
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, type } = e.target;
+
+    if (type === "number") {
+      const numeric =
+        value === ""
+          ? ""
+          : name === "quantity"
+          ? parseInt(value, 10)
+          : parseFloat(value);
+      setFormData((prev) => ({ ...prev, [name]: numeric }));
+      return;
+    }
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
 
+    const payload = {
+      ...formData,
+      // Make sure numeric fields are numbers (not empty strings)
+      Price: formData.Price === "" ? 0 : Number(formData.Price),
+      quantity: formData.quantity === "" ? 0 : Number(formData.quantity),
+    };
+
     let data = await fetch("http://localhost:3000/api/products", {
       method: "POST",
-      body: JSON.stringify(formData),
+      body: JSON.stringify(payload),
     });
     const res = await data.json();
     if (res) {
@@ -71,14 +91,14 @@ export default function AddItem() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-5 md:p-8">
+    <div className="max-w-3xl mx-auto p-5 md:p-8 ">
       <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
         <AiOutlinePlusCircle size={28} /> Add New Item
       </h2>
 
       <form
         onSubmit={handleSubmit}
-        className="grid grid-cols-1 md:grid-cols-2 gap-4  p-5 rounded-xl shadow"
+        className="grid grid-cols-1 md:grid-cols-2 gap-4  p-5 rounded-xl shadow-2xl bg-white"
       >
         {/* Text Inputs */}
         {[
@@ -146,7 +166,6 @@ export default function AddItem() {
             value={formData.Price}
             onChange={handleChange}
             className="border p-2 rounded-lg focus:ring focus:ring-blue-300 outline-none"
-            step="0.01"
             required
           />
         </div>
@@ -172,7 +191,7 @@ export default function AddItem() {
         <div className="md:col-span-2 mt-4">
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition font-semibold"
+            className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition font-semibold"
           >
             Add Product
           </button>

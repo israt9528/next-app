@@ -32,19 +32,19 @@ export default function Footer() {
 
         {/* Quick Links */}
         <div>
-          <h3 className="text-xl font-semibold text-white mb-4">Quick Links</h3>
+          <h3 className="text-xl font-semibold text-white mb-4">Services</h3>
           <ul className="space-y-3">
             <li className="hover:text-yellow-400 transition cursor-pointer">
-              Home
+              Help Center
             </li>
             <li className="hover:text-yellow-400 transition cursor-pointer">
-              All Products
+              FAQs
             </li>
             <li className="hover:text-yellow-400 transition cursor-pointer">
-              Add Product
+              Order Tracking
             </li>
             <li className="hover:text-yellow-400 transition cursor-pointer">
-              My Dashboard
+              Return & Refund
             </li>
             <li className="hover:text-yellow-400 transition cursor-pointer">
               Contact Us

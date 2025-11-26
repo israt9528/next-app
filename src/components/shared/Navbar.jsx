@@ -57,14 +57,27 @@ export default function Navbar() {
                     role="button"
                     className="cursor-pointer m-1"
                   >
-                    <FaUserCircle size={24} />
+                    {user ? (
+                      <Image
+                        src={user.photoURL}
+                        alt="User"
+                        width={34}
+                        height={34}
+                        className="rounded-full"
+                      />
+                    ) : (
+                      <FaUserCircle size={24} />
+                    )}
                   </div>
                   <ul
                     tabIndex="-1"
                     className="dropdown-content menu bg-base-100 rounded-box z-50 w-52 p-2 shadow-sm"
                   >
                     <li>
-                      <p className="truncate">Email: {user.email}</p>
+                      <p className="truncate">{user.displayName}</p>
+                    </li>
+                    <li>
+                      <p className="truncate border-b">{user.email}</p>
                     </li>
                     <li>
                       <Link href="/addItem">Add Item</Link>

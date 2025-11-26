@@ -5,6 +5,8 @@ import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 
 import { auth } from "../firebase/config";
 import { useRouter } from "next/navigation";
+import { updateProfile } from "firebase/auth";
+import Link from "next/link";
 
 export default function registerPage() {
   const [createUserWithEmailAndPassword, error] =
@@ -29,11 +31,20 @@ export default function registerPage() {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
+    const name = e.target.name.value;
+    const photoUrl = e.target.photoUrl.value;
     console.log(email, password);
 
     try {
       const res = await createUserWithEmailAndPassword(email, password);
       if (res?.user) {
+        updateProfile(auth.currentUser, {
+          displayName: name,
+          photoURL: photoUrl,
+        })
+          .then(() => {})
+          .catch((e) => {});
+        alert("Account created successfully!");
         router.push("/");
       }
     } catch (e) {
@@ -44,30 +55,33 @@ export default function registerPage() {
   return (
     <div className="w-full flex justify-center mt-20">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-        <h2 className="text-3xl font-bold ml-5">Register Now!</h2>
+        <h2 className="text-3xl font-bold ml-5 mt-5">Register Now!</h2>
         <form onSubmit={handleRegister}>
           <div className="card-body">
             <fieldset className="fieldset">
-              {/* <label className="label">Name</label>
+              <label className="label">Name</label>
               <input
                 type="text"
                 name="name"
                 className="input"
                 placeholder="Name"
-              /> */}
-              {/* <label className="label">Email</label>
+                required
+              />
+              <label className="label">Photo URL</label>
               <input
-                type="email"
-                name="email"
+                type="url"
+                name="photoUrl"
                 className="input"
-                placeholder="Email"
-              /> */}
+                placeholder="Photo URL"
+                required
+              />
               <label className="label">Email</label>
               <input
                 type="email"
                 name="email"
                 className="input"
                 placeholder="Email"
+                required
               />
               <label className="label">Password</label>
               <input
@@ -75,6 +89,7 @@ export default function registerPage() {
                 name="password"
                 className="input"
                 placeholder="Password"
+                required
               />
 
               {/* Errors */}
@@ -120,6 +135,12 @@ export default function registerPage() {
             </fieldset>
           </div>
         </form>
+        <p className="pl-6 pb-5">
+          Already have an account? Please{" "}
+          <Link href="/login" className="link link-hover text-blue-500">
+            Login
+          </Link>
+        </p>
       </div>
     </div>
   );

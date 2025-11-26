@@ -5,6 +5,7 @@ import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/config";
 import { useRouter } from "next/navigation";
 import { GoogleAuthProvider } from "firebase/auth";
+import Link from "next/link";
 
 export default function loginPage() {
   const [signInWithEmailAndPassword, user, loading, error] =
@@ -48,7 +49,7 @@ export default function loginPage() {
   return (
     <div className="w-full flex justify-center mt-20">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-        <h2 className="text-3xl font-bold ml-5">Login Now!</h2>
+        <h2 className="text-3xl font-bold ml-5 mt-5">Login to your account</h2>
         <form onSubmit={handleLogin}>
           <div className="card-body">
             <fieldset className="fieldset">
@@ -116,6 +117,12 @@ export default function loginPage() {
             </fieldset>
           </div>
         </form>
+        <p className="pl-6 pb-5">
+          New to our website? Please{" "}
+          <Link href="/register" className="link link-hover text-blue-500">
+            Register
+          </Link>
+        </p>
       </div>
     </div>
   );
