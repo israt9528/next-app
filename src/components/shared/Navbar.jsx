@@ -1,4 +1,5 @@
 "use client";
+
 import { auth } from "@/app/firebase/config";
 import { signOut } from "firebase/auth";
 import Image from "next/image";

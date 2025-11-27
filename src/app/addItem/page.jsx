@@ -1,13 +1,16 @@
 "use client";
+export const dynamic = "force-dynamic";
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase/config";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import { auth } from "../firebase/config";
 
 export default function AddItem() {
   const [user, loading] = useAuthState(auth);
+  console.log(user);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -37,7 +40,7 @@ export default function AddItem() {
     if (user) {
       setFormData((prev) => ({
         ...prev,
-        ownerEmail: user.email,
+        ownerEmail: user?.email,
       }));
     }
   }, [user]);
