@@ -82,7 +82,7 @@ export default function AddItem() {
       quantity: formData.quantity === "" ? 0 : Number(formData.quantity),
     };
 
-    let data = await fetch("http://localhost:3000/api/products", {
+    let data = await fetch("/api/products", {
       method: "POST",
       body: JSON.stringify(payload),
     });

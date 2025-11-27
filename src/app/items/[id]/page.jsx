@@ -6,7 +6,7 @@ import Link from "next/link";
 export default async function DetailsPage({ params }) {
   const { id } = await params;
 
-  const res = await fetch(`http://localhost:3000/api/products/${id}`);
+  const res = await fetch(`/api/products/${id}`);
   const product = await res.json();
   console.log(product);
   const {

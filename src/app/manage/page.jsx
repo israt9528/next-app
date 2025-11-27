@@ -36,16 +36,6 @@ export default function ManagePage() {
     fetchProducts();
   }, []);
 
-  //   const handleDelete = async (id) => {
-  //     let res = await fetch(`http://localhost:3000/api/products/${id}`, {
-  //       method: "delete",
-  //     });
-  //     const data = res.json();
-  //     if (data.success) {
-  //       alert("Item deleted");
-  //     }
-  //   };
-
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
 
