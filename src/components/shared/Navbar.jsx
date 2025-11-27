@@ -59,7 +59,7 @@ export default function Navbar() {
                   >
                     {user ? (
                       <Image
-                        src={user.photoURL}
+                        src={user?.photoURL}
                         alt="User"
                         width={34}
                         height={34}
