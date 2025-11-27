@@ -3,14 +3,18 @@ import { auth } from "@/app/firebase/config";
 import { signOut } from "firebase/auth";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
+import React, { useEffect, useState } from "react";
 import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
 
 export default function Navbar() {
-  const [user] = useAuthState(auth);
+  const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  console.log(user);
+
+  useEffect(() => {
+    if (!auth) return;
+    const unsubscribe = auth.onAuthStateChanged(setUser);
+    return () => unsubscribe();
+  }, []);
 
   const links = [
     <Link key="home" href="/">
