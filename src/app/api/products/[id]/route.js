@@ -1,19 +1,37 @@
+// app/api/products/[id]/route.jsx   ← MUST be .jsx and use this exact pattern
+
 import { uri } from "@/lib/dbConnect";
 import { Product } from "@/lib/model/product";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
-const clientOptions = {
-  serverApi: { version: "1", strict: true, deprecationErrors: true },
-};
+// Cached connection
+if (!global.mongoose) {
+  global.mongoose = { conn: null, promise: null };
+}
 
-export async function GET(request, { params }) {
+async function connectDB() {
+  if (global.mongoose.conn) return global.mongoose.conn;
+
+  if (!global.mongoose.promise) {
+    global.mongoose.promise = mongoose.connect(uri, {
+      serverApi: { version: "1", strict: true, deprecationErrors: true },
+    });
+  }
+  global.mongoose.conn = await global.mongoose.promise;
+  return global.mongoose.conn;
+}
+
+// GET — this is the only correct way in .jsx route handlers
+export async function GET(request, context) {
   try {
-    await mongoose.connect(uri, clientOptions);
+    // This line fixes the "params is a Promise" error
+    const params = await context.params;
+    const id = params.id;
 
-    const { id } = await params;
+    await connectDB();
 
-    const product = await Product.findById(id);
+    const product = await Product.findById(id).lean();
 
     if (!product) {
       return NextResponse.json(
@@ -24,7 +42,7 @@ export async function GET(request, { params }) {
 
     return NextResponse.json(product);
   } catch (error) {
-    console.error("Error fetching product:", error.message);
+    console.error("Error fetching product:", error);
     return NextResponse.json(
       { error: "Failed to load product" },
       { status: 500 }
@@ -32,17 +50,32 @@ export async function GET(request, { params }) {
   }
 }
 
-export async function DELETE(request, { params }) {
-  const { id } = await params;
-  const data = { _id: id };
-  await mongoose.connect(uri, clientOptions);
-  const result = await Product.deleteOne(data);
-  if (result.deletedCount === 0) {
+// DELETE — same fix here
+export async function DELETE(request, context) {
+  try {
+    const params = await context.params;
+    const id = params.id;
+
+    await connectDB();
+
+    const result = await Product.deleteOne({ _id: id });
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json(
+        { success: false, message: "Product not found" },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json(
-      { success: false, message: "Product not found" },
-      { status: 404 }
+      { success: true, message: "Product deleted" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    return NextResponse.json(
+      { error: "Failed to delete product" },
+      { status: 500 }
     );
   }
-
-  return NextResponse.json({ success: true, message: "Product deleted" });
 }
