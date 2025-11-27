@@ -5,7 +5,7 @@ import Image from "next/image";
 import { AiOutlineEye, AiOutlineDelete } from "react-icons/ai";
 import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase/config";
+import { auth } from "../firebase/client";
 import { useRouter } from "next/navigation";
 
 export default function ManagePage() {

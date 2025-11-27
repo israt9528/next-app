@@ -4,7 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
-import { auth } from "../firebase/config";
+import { auth } from "../firebase/client";
 
 export default function AddItem() {
   const [user, loading] = useAuthState(auth);

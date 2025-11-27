@@ -3,7 +3,7 @@ import React from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 
-import { auth } from "../firebase/config";
+import { auth } from "../firebase/client";
 import { useRouter } from "next/navigation";
 import { updateProfile } from "firebase/auth";
 import Link from "next/link";
