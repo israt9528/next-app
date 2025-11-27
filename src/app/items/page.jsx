@@ -4,7 +4,7 @@ import ProductCard from "@/components/productCard/ProductCard";
 import React from "react";
 
 export default async function allItems() {
-  const res = await fetch("/api/products");
+  const res = await fetch("/api/products", { cache: "no-store" });
   const data = await res.json();
   //   console.log(data);
 
